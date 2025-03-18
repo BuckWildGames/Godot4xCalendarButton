@@ -24,7 +24,8 @@ var min: int = 0
 var days_in_month: int = 0
 var first_day_of_week: int = 0
 
-var buttons: Array = []
+var buttons: Array = [Button]
+var selected_button: Button = null
 
 var include_time: bool = false
 var use_letter_days: bool = false
@@ -75,7 +76,7 @@ func _clear_calendar() -> void:
 func _reset_time(use_12_hour: bool = false) -> void:
 	time.set_visible(false)
 	hour_box.set_value_no_signal(hour)
-	min_box.set_value_no_signal(min)
+	min_box.set_value(min)
 	if use_12_hour:
 		if hour >= 12:
 			is_pm = true
@@ -137,6 +138,8 @@ func _generate_dates() -> void:
 		# Auto-focus the current day
 		if days == day and year == Time.get_datetime_dict_from_system().year and month == Time.get_datetime_dict_from_system().month:
 			button.grab_focus()
+			selected_button = button
+			selected_button.add_theme_color_override("font_color", selected_button.get_theme_color("font_focus_color"))
 
 
 func _get_days_in_month(target_month: int, target_year: int) -> int:
@@ -154,6 +157,10 @@ func _on_date_selected(new_day: int, button: Button) -> void:
 	print("Selected date: %d-%02d-%02d" % [year, month, day])
 	# Focus the selected button
 	button.grab_focus()
+	if selected_button != null:
+		selected_button.remove_theme_color_override("font_color")
+	selected_button = button
+	selected_button.add_theme_color_override("font_color", selected_button.get_theme_color("font_focus_color"))
 
 
 func _on_prev_month() -> void:
