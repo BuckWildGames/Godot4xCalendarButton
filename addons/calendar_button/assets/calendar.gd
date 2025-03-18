@@ -82,7 +82,8 @@ func _reset_time(use_12_hour: bool = false) -> void:
 		else:
 			is_pm = false
 		am_pm_button.set_pressed_no_signal(is_pm)
-		hour_box.set_value_no_signal(hour - 12)
+		if is_pm:
+			hour_box.set_value_no_signal(hour - 12)
 		hour_box.set_min(1.0)
 		hour_box.set_max(12.0)
 		am_pm_container.set_visible(true)
