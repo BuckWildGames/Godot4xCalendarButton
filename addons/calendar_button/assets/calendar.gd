@@ -54,7 +54,6 @@ func set_custom_theme(new_theme: Theme, new_font: Font, new_font_size: int) -> v
 
 
 func setup_calendar(use_time: bool, use_letters: bool, use_12_hour: bool) -> void:
-	_get_current_date()
 	_clear_calendar()
 	_reset_time(use_12_hour)
 	_generate_weekdays(use_letters)
@@ -120,7 +119,7 @@ func _generate_weekdays(use_letters: bool = false) -> void:
 
 func _generate_dates() -> void:
 	var date = Time.get_datetime_dict_from_unix_time(Time.get_unix_time_from_datetime_dict({
-		"year": year, "month": month, "day": day
+		"year": year, "month": month, "day": 1
 	}))
 	days_in_month = _get_days_in_month(month, year)
 	first_day_of_week = date.weekday
